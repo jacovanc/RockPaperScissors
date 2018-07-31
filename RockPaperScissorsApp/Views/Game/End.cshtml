@@ -1,0 +1,28 @@
+﻿@model RockPaperScissorsApp.Models.VMGameState
+@using RockPaperScissorsApp.Models;
+
+<div>
+    <div>Computer chose @Model.GetComputerAction(), and you chose @Model.GetPlayerAction() </div>
+    @if (Model.GetOutcome() == GameResult.Win)
+    {
+        <div>Congrats! You won.</div>
+        @Html.Action("Index", "Player")
+    }
+    else if (Model.GetOutcome() == GameResult.Lose)
+    {
+        <div>Sorry! You lost.</div>
+        <input id="restart" type="button" value="Restart" onclick="Restart()" />
+    }
+    else
+    {
+        <div>Draw! Try again!</div>
+        <input id="restart" type="button" value="Try Again" onclick="Restart()" />
+    }
+
+</div>
+
+<script>
+    function Restart() {
+        location.reload();
+    }
+</script>

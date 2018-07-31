@@ -1,0 +1,63 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Game</title>
+</head>
+<body>
+    <div id="countdown"></div>
+    <div id="buttons">
+        <input disabled type="button" value="Rock" onclick="PlayerAction('Rock')" />
+        <input disabled type="button" value="Paper" onclick="PlayerAction('Paper')" />
+        <input disabled type="button" value="Scissors" onclick="PlayerAction('Scissors')" />
+        <input id="restart" type="button" value="Restart" onclick="Restart()" />
+    </div>
+</body>
+</html>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    function PlayerAction(choice) { 
+         $.ajax({
+            url: '@Url.Action("End","Game")',
+            type: 'GET',
+             data: { PlayerAction: choice },
+            datatype: 'html',
+            success: function (data) {
+                console.log(data);
+                $(document.body).html(data);
+            }
+         });
+    };
+
+    function Restart() {
+        location.reload();
+    }
+
+    //This could be overridden client side but does not effect outcome of the game.
+    window.onload = function () {
+        $('#countdown').html('Rock..');
+        setTimeout(function () {
+            $('#countdown').html('Paper..');
+            setTimeout(function () {
+                $('#countdown').html('Scissors..')
+                setTimeout(function () {
+                    $(':button').prop('disabled', false);
+                    $('#countdown').html('Shoot!')
+                }, 1000);
+            }, 1000);
+        }, 1000);
+    }
+
+</script>
+
+<style>
+    #restart{
+        display: none;
+    }
+</style>
